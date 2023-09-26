@@ -1,0 +1,34 @@
+<div>
+    <h2>Phone Directory</h2>
+
+    <form (submit)="submitForm()">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" [(ngModel)]="addedContact.name" required>
+        &nbsp;
+      <label for="number">Contact Number:</label>
+      <input type="text" id="number" name="mobileNumber" [(ngModel)]="addedContact.mobileNumber" required>
+        &nbsp;
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" [(ngModel)]="addedContact.email" required>
+        &nbsp;
+      <button type="submit">Submit</button>
+    </form>
+  
+    <table class="table">
+      <thead class="table-head">
+        <tr class="table-row">
+          <th class="table-head">Name</th>
+          <th class="table-head">Contact Number</th>
+          <th class="table-head">Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let contact of contactList">
+          <td class="table-body">{{ contact.name }}</td>
+          <td class="table-body">{{ contact.mobileNumber }}</td>
+          <td class="table-body">{{ contact.email }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
