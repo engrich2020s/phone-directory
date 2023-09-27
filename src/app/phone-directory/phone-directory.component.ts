@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-phone-directory',
@@ -6,13 +7,22 @@ import { Component } from '@angular/core';
   styleUrls: ['./phone-directory.component.css']
 })
 export class PhoneDirectoryComponent {
-  addedContact = { name: "", mobileNumber: "", email: "" };
-  contactList: any[] = [];
+  contactForm: FormGroup;
+  contactList: { name: string; mobileNumber: string; email: string }[] = [];
+
+  constructor(private formBuilder: FormBuilder) {
+    this.contactForm = this.formBuilder.group({
+      name: ['', [Validators.required, Validators.pattern('^[A-Za-z]+$')]],
+      mobileNumber: ['', [Validators.required, Validators.maxLength(10), Validators.pattern('^[0-9]+$')]],
+      email:[]
+    });
+  }
 
   submitForm() {
-    if (this.addedContact.name.trim() !== '' && this.addedContact.mobileNumber.trim() !== '' && this.addedContact.email.trim() !== '') {
-      this.contactList.push({ ...this.addedContact });
-      this.addedContact = { name: '', mobileNumber: '', email: '' };
+    if (this.contactForm.valid) {
+      const { name, mobileNumber, email } = this.contactForm.value;
+      this.contactList.push({ name, mobileNumber, email });
+      this.contactForm.reset();
     }
   }
 }

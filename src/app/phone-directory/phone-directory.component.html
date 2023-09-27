@@ -1,34 +1,41 @@
-<div>
-    <h2>Phone Directory</h2>
+<h1>Phone Directory</h1>
 
-    <form (submit)="submitForm()">
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name" [(ngModel)]="addedContact.name" required>
-        &nbsp;
-      <label for="number">Contact Number:</label>
-      <input type="text" id="number" name="mobileNumber" [(ngModel)]="addedContact.mobileNumber" required>
-        &nbsp;
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" [(ngModel)]="addedContact.email" required>
-        &nbsp;
-      <button type="submit">Submit</button>
-    </form>
-  
-    <table class="table">
-      <thead class="table-head">
-        <tr class="table-row">
-          <th class="table-head">Name</th>
-          <th class="table-head">Contact Number</th>
-          <th class="table-head">Email</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let contact of contactList">
-          <td class="table-body">{{ contact.name }}</td>
-          <td class="table-body">{{ contact.mobileNumber }}</td>
-          <td class="table-body">{{ contact.email }}</td>
-        </tr>
-      </tbody>
-    </table>
+<form class="form-container" [formGroup]="contactForm" (ngSubmit)="submitForm()">
+  <div class="form-group">
+    <label for="name">Name:</label>
+    <input type="text" class="name" formControlName="name" />
+    <div class="error" *ngIf="contactForm.get('name')?.hasError('required')">Name is required.</div>
+    <div class="error" *ngIf="contactForm.get('name')?.hasError('pattern')">Name should have no spaces or special characters.</div>
   </div>
+  &nbsp;
+  <div class="form-group">
+    <label for="mobile">Mobile Number:</label>
+    <input type="tel" class="mobileNumber" formControlName="mobileNumber" />
+    <div class="error" *ngIf="contactForm.get('mobileNumber')?.hasError('required')">Mobile number is required.</div>
+    <div class="error" *ngIf="contactForm.get('mobileNumber')?.hasError('maxlength')">Mobile number should have a maximum length of 10 digits.</div>
+    <div class="error" *ngIf="contactForm.get('mobileNumber')?.hasError('pattern')">Mobile number should contain only numbers.</div>
+  </div>
+  &nbsp;
+  <div class="form-group">Email</div>
+
+  <button type="submit" [disabled]="contactForm.invalid">Submit</button>
+</form>
+
+<table class="table"> 
+  <thead class="table-heading">
+    <tr class="table-row">
+      <th class="table-head">Name</th>
+      <th class="table-head">Mobile Number</th>
+      <th class="table-head">Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let contact of contactList">
+      <td class="table-body">{{ contact.name }}</td>
+      <td class="table-body">{{ contact.mobileNumber }}</td>
+      <td class="table-body">{{ contact.email }}</td>
+    </tr>
+  </tbody>
+</table>
+
   
